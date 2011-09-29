@@ -394,6 +394,10 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
             return DataType.CHARARRAY;
         else if (type instanceof UTF8Type)
             return DataType.CHARARRAY;
+        else if (type instanceof FloatType)
+            return DataType.FLOAT;
+        else if (type instanceof DoubleType)
+            return DataType.DOUBLE;
         return DataType.BYTEARRAY;
     }
 
