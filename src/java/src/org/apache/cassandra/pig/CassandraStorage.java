@@ -107,7 +107,7 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         return limit;
     }
 
-	@Override
+    @Override
     public Tuple getNext() throws IOException
     {
         try
@@ -120,9 +120,9 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
             ByteBuffer key = (ByteBuffer)reader.getCurrentKey();
             SortedMap<ByteBuffer,IColumn> cf = (SortedMap<ByteBuffer,IColumn>)reader.getCurrentValue();
             assert key != null && cf != null;
-            
+
             // and wrap it in a tuple
-	        Tuple tuple = TupleFactory.getInstance().newTuple(2);
+            Tuple tuple = TupleFactory.getInstance().newTuple(2);
             ArrayList<Tuple> columns = new ArrayList<Tuple>();
             tuple.set(0, new DataByteArray(key.array(), key.position()+key.arrayOffset(), key.limit()+key.arrayOffset()));
             for (Map.Entry<ByteBuffer, IColumn> entry : cf.entrySet())
@@ -160,7 +160,7 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         ArrayList<Tuple> subcols = new ArrayList<Tuple>();
         for (IColumn subcol : col.getSubColumns())
             subcols.add(columnToTuple(subcol.name(), subcol, cfDef));
-        
+
         pair.set(1, new DefaultDataBag(subcols));
         return pair;
     }
@@ -236,6 +236,19 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         this.reader = reader;
     }
 
+    public static Map<String, String> getQueryMap(String query)
+    {
+        String[] params = query.split("&");
+        Map<String, String> map = new HashMap<String, String>();
+        for (String param : params)
+        {
+            String name = param.split("=")[0];
+            String value = param.split("=")[1];
+            map.put(name, value);
+        }
+        return map;
+    }
+
     private void setLocationFromUri(String location) throws IOException
     {
         // parse uri into keyspace and columnfamily
@@ -247,18 +260,15 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
             String[] urlParts = location.split("\\?");
             if (urlParts.length > 1)
             {
-                for (String param : urlParts[1].split("&"))
-                {
-                    String[] pair = param.split("=");
-                    if (pair[0].equals("slice_start"))
-                        slice_start = ByteBufferUtil.bytes(pair[1]);
-                    else if (pair[0].equals("slice_end"))
-                        slice_end = ByteBufferUtil.bytes(pair[1]);
-                    else if (pair[0].equals("reversed"))
-                        slice_reverse = Boolean.parseBoolean(pair[1]);
-                    else if (pair[0].equals("limit"))
-                        limit = Integer.parseInt(pair[1]);
-                }
+                Map<String, String> urlQuery = getQueryMap(urlParts[1]);
+                if (urlQuery.containsKey("slice_start"))
+                    slice_start = ByteBufferUtil.bytes(urlQuery.get("slice_start"));
+                if (urlQuery.containsKey("slice_end"))
+                    slice_end = ByteBufferUtil.bytes(urlQuery.get("slice_end"));
+                if (urlQuery.containsKey("reversed"))
+                    slice_reverse = Boolean.parseBoolean(urlQuery.get("reversed"));
+                if (urlQuery.containsKey("limit"))
+                    limit = Integer.parseInt(urlQuery.get("limit"));
             }
             String[] parts = urlParts[0].split("/+");
             keyspace = parts[1];
