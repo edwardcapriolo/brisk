@@ -187,10 +187,12 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         ArrayList<AbstractType> marshallers = new ArrayList<AbstractType>();
         AbstractType comparator = null;
         AbstractType default_validator = null;
+        AbstractType key_validator = null;
         try
         {
             comparator = TypeParser.parse(cfDef.getComparator_type());
             default_validator = TypeParser.parse(cfDef.getDefault_validation_class());
+            key_validator = TypeParser.parse(cfDef.getKey_validation_class());
         }
         catch (ConfigurationException e)
         {
@@ -199,13 +201,14 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
 
         marshallers.add(comparator);
         marshallers.add(default_validator);
+        marshallers.add(key_validator);
         return marshallers;
     }
 
-    private Map<ByteBuffer, AbstractType> getValidatorMap(CfDef cfDef) throws  IOException
+    private Map<ByteBuffer, AbstractType> getValidatorMap(CfDef cfDef) throws IOException
     {
         Map<ByteBuffer, AbstractType> validators = new HashMap<ByteBuffer, AbstractType>();
-        for (ColumnDef cd : cfDef.column_metadata)
+        for (ColumnDef cd : cfDef.getColumn_metadata())
         {
             if (cd.getValidation_class() != null && !cd.getValidation_class().isEmpty())
             {
@@ -321,10 +324,14 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         // top-level schema, no type
         ResourceSchema schema = new ResourceSchema();
 
+        // get default marshallers and validators
+        List<AbstractType> marshallers = getDefaultMarshallers(cfDef);
+        Map<ByteBuffer,AbstractType> validators = getValidatorMap(cfDef);
+
         // add key
         ResourceFieldSchema keyFieldSchema = new ResourceFieldSchema();
         keyFieldSchema.setName("key");
-        keyFieldSchema.setType(DataType.CHARARRAY); //TODO: get key type
+        keyFieldSchema.setType(getPigType(marshallers.get(2)));
 
         // will become the bag of tuples
         ResourceFieldSchema bagFieldSchema = new ResourceFieldSchema();
@@ -332,8 +339,6 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         bagFieldSchema.setType(DataType.BAG);
         ResourceSchema bagSchema = new ResourceSchema();
 
-        List<AbstractType> marshallers = getDefaultMarshallers(cfDef);
-        Map<ByteBuffer,AbstractType> validators = getValidatorMap(cfDef);
         List<ResourceFieldSchema> tupleFields = new ArrayList<ResourceFieldSchema>();
 
         // default comparator/validator
