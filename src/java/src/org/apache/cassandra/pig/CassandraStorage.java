@@ -267,10 +267,13 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
             if (urlParts.length > 1)
             {
                 Map<String, String> urlQuery = getQueryMap(urlParts[1]);
+                AbstractType comparator = BytesType.instance;
+                if (urlQuery.containsKey("comparator"))
+                    comparator = TypeParser.parse(urlQuery.get("comparator"));
                 if (urlQuery.containsKey("slice_start"))
-                    slice_start = ByteBufferUtil.bytes(urlQuery.get("slice_start"));
+                    slice_start = comparator.fromString(urlQuery.get("slice_start"));
                 if (urlQuery.containsKey("slice_end"))
-                    slice_end = ByteBufferUtil.bytes(urlQuery.get("slice_end"));
+                    slice_end = comparator.fromString(urlQuery.get("slice_end"));
                 if (urlQuery.containsKey("reversed"))
                     slice_reverse = Boolean.parseBoolean(urlQuery.get("reversed"));
                 if (urlQuery.containsKey("limit"))
