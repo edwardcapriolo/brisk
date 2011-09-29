@@ -189,8 +189,8 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         AbstractType default_validator = null;
         try
         {
-            comparator = TypeParser.parse(cfDef.comparator_type);
-            default_validator = TypeParser.parse(cfDef.default_validation_class);
+            comparator = TypeParser.parse(cfDef.getComparator_type());
+            default_validator = TypeParser.parse(cfDef.getDefault_validation_class());
         }
         catch (ConfigurationException e)
         {
