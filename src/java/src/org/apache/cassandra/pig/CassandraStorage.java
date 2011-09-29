@@ -202,7 +202,7 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         return marshallers;
     }
 
-    private Map<ByteBuffer,AbstractType> getValidatorMap(CfDef cfDef) throws  IOException
+    private Map<ByteBuffer, AbstractType> getValidatorMap(CfDef cfDef) throws  IOException
     {
         Map<ByteBuffer, AbstractType> validators = new HashMap<ByteBuffer, AbstractType>();
         for (ColumnDef cd : cfDef.column_metadata)
@@ -242,9 +242,8 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         Map<String, String> map = new HashMap<String, String>();
         for (String param : params)
         {
-            String name = param.split("=")[0];
-            String value = param.split("=")[1];
-            map.put(name, value);
+            String[] keyValue = param.split("=");
+            map.put(keyValue[0], keyValue[1]);
         }
         return map;
     }
@@ -332,7 +331,6 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         bagFieldSchema.setName("columns");
         bagFieldSchema.setType(DataType.BAG);
         ResourceSchema bagSchema = new ResourceSchema();
-
 
         List<AbstractType> marshallers = getDefaultMarshallers(cfDef);
         Map<ByteBuffer,AbstractType> validators = getValidatorMap(cfDef);
