@@ -18,20 +18,22 @@
 
 package org.apache.cassandra.locator;
 
+import org.apache.cassandra.config.ConfigurationException;
+import org.apache.cassandra.gms.ApplicationState;
+import org.apache.cassandra.gms.EndpointState;
+import org.apache.cassandra.gms.Gossiper;
+import org.apache.cassandra.gms.VersionedValue;
+import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
+import org.apache.cassandra.service.StorageService;
+import org.apache.cassandra.utils.FBUtilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.apache.cassandra.config.ConfigurationException;
-import org.apache.cassandra.gms.*;
-import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
-import org.apache.cassandra.service.StorageService;
-import org.apache.cassandra.utils.FBUtilities;
 
 /**
  * A snitch that detects if Hadoop trackers are active and put this machine in a separate analytics DC
@@ -108,5 +110,10 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
     public String getRack(InetAddress arg0)
     {
         return "rack1";
+    }
+
+    public int compareEndpoints(InetAddress target, InetAddress a1, InetAddress a2)
+    {
+        return 0;
     }
 }
