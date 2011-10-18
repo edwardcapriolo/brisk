@@ -7,6 +7,7 @@ delivered an amazing distribution.
 
 However, they shifted their product strategy, and decided they are discontinuing
 Brisk:
+
 	* http://www.datastax.com/2011/09/two-new-offerings-today-from-datastax
 	* http://www.datastax.com/2011/09/committing-hive-driver-into-apache-cassandra
 	* http://www.datastax.com/2011/09/replies-to-your-feedback-on-brisk-announcement
