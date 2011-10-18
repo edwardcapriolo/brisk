@@ -53,7 +53,7 @@
 	<property name="hadoop.dir" value="${basedir}/resources/hadoop"/>
 	<property name="hadoop.dir.lib" value="${hadoop.dir}/lib"/>
 	<property name="cassandra.dir" value="${basedir}/resources/cassandra"/>
-	<property name="cassandra.dir.lib" value="${cassandra.dir}/lib"/>	
+	<property name="cassandra.dir.lib" value="${cassandra.dir}/lib"/>
 	<property name="hive.dir" value="${basedir}/resources/hive"/>
 	<property name="hive.dir.lib" value="${hive.dir}/lib"/>
 	<property name="brisk-common.dir" value="${basedir}/resources/brisk"/>
@@ -124,7 +124,7 @@
 		</fileset>
 	    <fileset dir="${pig.dir.lib}">
             <include name="**/*.jar" />
-        </fileset>	   
+        </fileset>
 	</path>
 
 	<!--
@@ -195,9 +195,9 @@
 	</target>
 
 	<target name="maven-ant-tasks-retrieve-build" depends="maven-ant-tasks-init">
-		<artifact:dependencies filesetId="build-dependency-jars" 
-                             sourcesFilesetId="build-dependency-sources" 
-                             cacheDependencyRefs="true" 
+		<artifact:dependencies filesetId="build-dependency-jars"
+                             sourcesFilesetId="build-dependency-sources"
+                             cacheDependencyRefs="true"
                              dependencyRefsBuildFile="${build.dir}/build-dependencies.xml">
 			<!-- FIXME: paranamer can be dropped after we're depending on avro
 	     (since it depends on them). -->
@@ -205,20 +205,20 @@
 			<dependency groupId="junit" artifactId="junit" version="4.6" />
 			<dependency groupId="commons-cli" artifactId="commons-cli" version="1.2" />
 			<dependency groupId="net.java.dev.jna" artifactId="jna" version="3.2.7"/>
-			<dependency groupId="junitx" artifactId="junitx" version="1.4" />			
+			<dependency groupId="junitx" artifactId="junitx" version="1.4" />
 			<remoteRepository refid="datastax-release"/>
 			<remoteRepository refid="central"/>
 			<remoteRepository refid="java.net2"/>
 			<remoteRepository refid="apache"/>
 		</artifact:dependencies>
 	    <artifact:dependencies filesetId="brisk-common-jars"
-				     cacheDependencyRefs="true" 
+				     cacheDependencyRefs="true"
 				     dependencyRefsBuildFile="${build.dir}/build-brisk-dependencies.xml">
 	    	<dependency groupId="org.slf4j" artifactId="slf4j-log4j12" version="1.6.1"/>
 	    	<remoteRepository refid="central"/>
 		</artifact:dependencies>
 		<artifact:dependencies filesetId="hadoop-jars"
-			     cacheDependencyRefs="true" 
+			     cacheDependencyRefs="true"
 			     dependencyRefsBuildFile="${build.dir}/build-hadoop-dependencies.xml">
 
 			<dependency groupId="org.apache.hadoop" artifactId="hadoop-core" version="${hadoop-core.build.version}">
@@ -230,7 +230,7 @@
 			<dependency groupId="org.apache.hadoop" artifactId="hadoop-test" version="${hadoop.build.version}">
 				<exclusion groupId="org.slf4j" artifactId="slf4j-api"/>
 	        </dependency>
-	
+
 			<dependency groupId="org.apache.hadoop" artifactId="hadoop-fairscheduler" version="0.20.203.1-brisk1"/>
 			<dependency groupId="commons-logging" artifactId="commons-logging" version="1.0.4"/>
 
@@ -241,11 +241,9 @@
 			<remoteRepository refid="java.net2"/>
 		</artifact:dependencies>
 		<artifact:dependencies filesetId="cassandra-jars"
-			     cacheDependencyRefs="true" 
-                             dependencyRefsBuildFile="${build.dir}/build-cassandra-dependencies.xml">			
+			     cacheDependencyRefs="true"
+                             dependencyRefsBuildFile="${build.dir}/build-cassandra-dependencies.xml">
 			<dependency groupId="org.apache.cassandra" artifactId="cassandra-all" version="${cassandra.build.version}"/>
-			<dependency groupId="org.apache.cassandra" artifactId="cassandra-thrift" version="${cassandra-thrift.build.version}"/>
-      <dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-cql" version="${cassandra-cql.build.version}"/>
 			<dependency groupId="joda-time" artifactId="joda-time" version="1.6.2"/>
 			<dependency groupId="org.xerial.snappy" artifactId="snappy-java" version="1.0.3-SNAPSHOT"/>
 			<remoteRepository id="datastax-snapshot"  url="${artifact.remoteRepository.datastax-snapshot}">
@@ -260,7 +258,7 @@
 		</artifact:dependencies>
 
 		<artifact:dependencies filesetId="hive-jars"
-			     cacheDependencyRefs="true" 
+			     cacheDependencyRefs="true"
                              dependencyRefsBuildFile="${build.dir}/build-hive-dependencies.xml">
 
 			<dependency groupId="org.apache.hive" artifactId="hive-common" version="${hive.build.version}"/>
@@ -293,7 +291,7 @@
 			<remoteRepository refid="java.net2"/>
 		</artifact:dependencies>
         <artifact:dependencies filesetId="pig-jars"
-			     cacheDependencyRefs="true" 
+			     cacheDependencyRefs="true"
                  dependencyRefsBuildFile="${build.dir}/build-pig-dependencies.xml">
 	        <dependency groupId="org.apache.pig" artifactId="pig" version="${pig.build.version}"/>
 		</artifact:dependencies>
@@ -334,7 +332,7 @@
 			<fileset refid="cassandra-jars"/>
 			<mapper type="flatten"/>
 		</copy>
-	
+
 		<copy todir="${brisk-common.dir.lib}">
 	        <fileset refid="brisk-common-jars"/>
 			<mapper type="flatten"/>
@@ -352,7 +350,7 @@
 	        <restrict>
                 <fileset refid="pig-jars"/>
 	            <rsel:name name="*pig-*.jar"/>
-	        </restrict>	
+	        </restrict>
 	        <mapper type="flatten"/>
         </copy>
 
@@ -362,7 +360,7 @@
 	            <rsel:not>
 	                <rsel:name name="*slf4j*.jar"/>
 	            </rsel:not>
-	        </restrict>	
+	        </restrict>
 	        <mapper type="flatten"/>
         </copy>
 	</target>
@@ -395,19 +393,19 @@
 	    <echo file=".classpath"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 	<classpath>
 	  <classpathentry kind="src" path="src/java/src"/>
-	  <classpathentry kind="src" path="interface/thrift/gen-java"/>  
+	  <classpathentry kind="src" path="interface/thrift/gen-java"/>
 	  <classpathentry kind="src" path="test/unit"/>
-	  <classpathentry kind="src" path="demos/portfolio_manager/src"/>  
-	  <classpathentry kind="src" path="demos/portfolio_manager/thrift/gen-java"/>  
+	  <classpathentry kind="src" path="demos/portfolio_manager/src"/>
+	  <classpathentry kind="src" path="demos/portfolio_manager/thrift/gen-java"/>
 	  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	  <classpathentry kind="output" path="build/classes/main"/>
 	  <classpathentry kind="lib" path="test/conf"/>
 	]]>
-	    </echo>   
+	    </echo>
 	    <path id="eclipse-project-libs-path">
 	     <fileset dir="${hadoop.dir}">
 	       <include name="**/*.jar" />
-	     </fileset>         
+	     </fileset>
 	     <fileset dir="${hadoop.dir.lib}">
 	       <include name="**/*.jar" />
 	     </fileset>
@@ -416,7 +414,7 @@
 	     </fileset>
          <fileset dir="${brisk-common.dir.lib}">
            <include name="**/*.jar" />
-         </fileset>	    	
+         </fileset>
 	     <fileset dir="${hive.dir.lib}">
 	       <include name="**/*.jar" />
 	     </fileset>
@@ -430,20 +428,20 @@
 	    <property name="eclipse-project-libs" refid="eclipse-project-libs-path"/>
 	    <script language="javascript"> <![CDATA[
 	        importClass(java.io.File);
-	        jars = project.getProperty("eclipse-project-libs").split(":");  
-	        
+	        jars = project.getProperty("eclipse-project-libs").split(":");
+
 	        cp = "";
 	        for (i=0; i< jars.length; i++) {
 	           cp += ' <classpathentry kind="lib" path="'+jars[i]+'"/>\n';
 	        }
-	        
+
 	        cp += '</classpath>';
-	        
+
 	        echo = project.createTask("echo");
 	        echo.setMessage(cp);
 	        echo.setFile(new File(".classpath"));
 	        echo.setAppend(true);
-	        echo.perform();      
+	        echo.perform();
 	    ]]> </script>
 	    <mkdir dir=".settings" />
 	    <mkdir dir=".externalToolBuilders" />
@@ -502,17 +500,17 @@
 <classpath>
   <classpathentry kind="src" path="src/java/src"/>
   <classpathentry kind="src" path="src/gen-java"/>
-  <classpathentry kind="src" path="interface/thrift/gen-java"/>  
+  <classpathentry kind="src" path="interface/thrift/gen-java"/>
   <classpathentry kind="src" path="test/unit"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="output" path="build/classes/main"/>		
+  <classpathentry kind="output" path="build/classes/main"/>
   <classpathentry kind="lib" path="test/conf"/>
 ]]>
-	</echo>	  
+	</echo>
   	<path id="eclipse-project-libs-path">
  	 <fileset dir="${hadoop.dir}">
  	    <include name="**/*.jar" />
-    </fileset>  		
+    </fileset>
   	 <fileset dir="${hadoop.dir.lib}">
   	    <include name="**/*.jar" />
      </fileset>
@@ -521,7 +519,7 @@
      </fileset>
   	 <fileset dir="${brisk-common.dir.lib}">
   	    <include name="**/*.jar" />
-     </fileset>	
+     </fileset>
   	 <fileset dir="${hive.dir.lib}">
   	    <include name="**/*.jar" />
      </fileset>
@@ -532,20 +530,20 @@
   	<property name="eclipse-project-libs" refid="eclipse-project-libs-path"/>
   	<script language="javascript"> <![CDATA[
   		importClass(java.io.File);
-  		jars = project.getProperty("eclipse-project-libs").split(":");  
-  		
+  		jars = project.getProperty("eclipse-project-libs").split(":");
+
   		cp = "";
   	    for (i=0; i< jars.length; i++) {
   	       cp += ' <classpathentry kind="lib" path="'+jars[i]+'"/>\n';
   		}
-  		
+
   		cp += '</classpath>';
-  	    
+
   		echo = project.createTask("echo");
   	    echo.setMessage(cp);
   		echo.setFile(new File(".classpath"));
   		echo.setAppend(true);
-  	    echo.perform();	     
+  	    echo.perform();
   	]]> </script>
     <mkdir dir=".settings" />
     <mkdir dir=".externalToolBuilders" />
