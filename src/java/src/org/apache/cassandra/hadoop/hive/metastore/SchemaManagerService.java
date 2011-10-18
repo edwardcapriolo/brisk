@@ -12,14 +12,7 @@ import org.apache.cassandra.config.CFMetaData;
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.KSMetaData;
 import org.apache.cassandra.db.ColumnFamilyType;
-import org.apache.cassandra.db.marshal.AbstractType;
-import org.apache.cassandra.db.marshal.AbstractUUIDType;
-import org.apache.cassandra.db.marshal.AsciiType;
-import org.apache.cassandra.db.marshal.BytesType;
-import org.apache.cassandra.db.marshal.IntegerType;
-import org.apache.cassandra.db.marshal.LongType;
-import org.apache.cassandra.db.marshal.TypeParser;
-import org.apache.cassandra.db.marshal.UTF8Type;
+import org.apache.cassandra.db.marshal.*;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.ColumnDef;
 import org.apache.cassandra.thrift.InvalidRequestException;
@@ -389,7 +382,7 @@ public class SchemaManagerService
         } else if ( validationType instanceof LongType )
         {
             sd.addToCols(new FieldSchema(comparator.getString(columnName), "int", buildTypeComment(validationType)));
-        } else if ( validationType instanceof AbstractUUIDType )
+        } else if ( validationType instanceof UUIDType || validationType instanceof TimeUUIDType || validationType instanceof LexicalUUIDType )
         {
             sd.addToCols(new FieldSchema(comparator.getString(columnName), "string", buildTypeComment(validationType)));
         } else if ( validationType instanceof IntegerType )
