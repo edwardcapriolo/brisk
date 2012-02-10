@@ -1,7 +1,10 @@
 lib/*.jar
 build/*.jar
 resources
+out
+*.iml
 *~
 .project
 .classpath
+.idea
 build

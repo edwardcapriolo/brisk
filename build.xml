@@ -821,7 +821,8 @@
         <javac
      debug="true"
      debuglevel="${debuglevel}"
-     destdir="${test.classes}">
+     destdir="${test.classes}"
+     includeantruntime="false">
             <classpath refid="cassandra.classpath"/>
             <src path="${test.unit.src}"/>
         </javac>
