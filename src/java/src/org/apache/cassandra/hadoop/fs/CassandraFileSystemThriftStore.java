@@ -37,6 +37,7 @@ import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.cassandra.utils.UUIDGen;
+import org.apache.cassandra.utils.Hex;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.Path;
@@ -646,7 +647,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     ByteBuffer uuidToByteBuffer(UUID id)
     {
-        return ByteBufferUtil.bytes(FBUtilities.bytesToHex(UUIDGen.decompose(id)));
+        return ByteBufferUtil.bytes(Hex.bytesToHex(UUIDGen.decompose(id)));
     }
 
     /**

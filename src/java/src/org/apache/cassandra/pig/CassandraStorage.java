@@ -27,6 +27,7 @@ import org.apache.cassandra.db.marshal.IntegerType;
 import org.apache.cassandra.db.marshal.TypeParser;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.FBUtilities;
+import org.apache.cassandra.utils.Hex;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -625,7 +626,7 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         TSerializer serializer = new TSerializer(new TBinaryProtocol.Factory());
         try
         {
-            return FBUtilities.bytesToHex(serializer.serialize(cfDef));
+            return Hex.bytesToHex(serializer.serialize(cfDef));
         }
         catch (TException e)
         {
@@ -640,7 +641,7 @@ public class CassandraStorage extends LoadFunc implements StoreFuncInterface, Lo
         CfDef cfDef = new CfDef();
         try
         {
-            deserializer.deserialize(cfDef, FBUtilities.hexToBytes(st));
+            deserializer.deserialize(cfDef, Hex.hexToBytes(st));
         }
         catch (TException e)
         {

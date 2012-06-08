@@ -136,7 +136,7 @@ public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraD
             Brisk.Processor processor = new Brisk.Processor(briskServer);
 
             // Transport
-            TServerSocket tServerSocket = null;
+            TCustomServerSocket tServerSocket = null;
 
             try
             {
