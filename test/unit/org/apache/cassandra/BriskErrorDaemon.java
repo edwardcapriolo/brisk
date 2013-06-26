@@ -89,7 +89,7 @@ public class BriskErrorDaemon extends org.apache.cassandra.service.AbstractCassa
             Brisk.Processor processor = new Brisk.Processor(briskServer);
 
             // Transport
-            TServerSocket tServerSocket = null;
+            TCustomServerSocket tServerSocket = null;
 
             try
             {

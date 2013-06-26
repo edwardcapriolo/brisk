@@ -22,8 +22,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.cassandra.config.CFMetaData;
-import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.config.KSMetaData;
+import org.apache.cassandra.config.Schema;
 import org.apache.cassandra.service.ClientState;
 import org.apache.cassandra.thrift.*;
 import org.apache.thrift.TException;
@@ -68,13 +68,13 @@ public class BriskErrorServer implements Brisk.Iface
 
     public KsDef describe_keyspace(String table) throws NotFoundException, InvalidRequestException, TException
     {
-        KSMetaData ksm = DatabaseDescriptor.getTableDefinition(table);
+        KSMetaData ksm = Schema.instance.getTableDefinition(table);
         if (ksm == null)
             throw new NotFoundException();
 
         List<CfDef> cfDefs = new ArrayList<CfDef>();
         for (CFMetaData cfm : ksm.cfMetaData().values())
-            cfDefs.add(CFMetaData.convertToThrift(cfm));
+            cfDefs.add(cfm.toThrift());
         KsDef ksdef = new KsDef(ksm.name, ksm.strategyClass.getName(), cfDefs);
         ksdef.setStrategy_options(ksm.strategyOptions);
         return ksdef;
@@ -82,7 +82,7 @@ public class BriskErrorServer implements Brisk.Iface
 
     public List<KsDef> describe_keyspaces() throws InvalidRequestException, TException
     {
-        Set<String> keyspaces = DatabaseDescriptor.getTables();
+        Set<String> keyspaces = Schema.instance.getTables();
         List<KsDef> ksset = new ArrayList<KsDef>();
         for (String ks : keyspaces)
         {
